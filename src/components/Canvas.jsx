@@ -114,8 +114,8 @@ export default function Canvas() {
 
 
     return (
-        <div onContextMenu={handleRightClick}>
-            <Options open={openOptions} setOpen={setOpenOptions} pageX={clickX} pageY={clickY} setColor={setSelectedColor} />
+        <div onContextMenu={handleRightClick} style={{ cursor: selectedColor === "white" ? 'url("/eraser-cursor.cur") 10 15, auto' : '' }}>
+            <Options open={openOptions} setOpen={setOpenOptions} pageX={clickX} pageY={clickY} setColor={setSelectedColor}/>
             <canvas
                 ref={canvasRef}
                 onMouseDown={handleMouseDown}

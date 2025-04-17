@@ -11,7 +11,7 @@ export default function Options({ open, pageY, pageX, setColor, setOpen }) {
     const COLORS = ["red", "blue", "green", "yellow", "black", "custom"]
     return (
         <>
-            {open && <div className="fade-in fade-out absolute" style={{ left: pageX, top: pageY }}>
+            {open && <div className="fade-in fade-out absolute" style={{ left: pageX, top: pageY}}>
                 <div className="bg-white rounded-lg shadow-xl p-3 flex gap-3">
                     {COLORS.map((color) => (
                         <div
