@@ -35,6 +35,15 @@ export default function Options({ open, pageY, pageX, setColor, setOpen }) {
                             )}
                         </div>
                     ))}
+                    <div
+                        className="w-10 h-10 scale-120 rounded-full cursor-pointer transition-transform duration-200 transform hover:scale-130 border-2 border-transparent hover:border-gray-300"
+                        onClick={() => {
+                            setColor("white");
+                            setOpen(false);
+                        }}
+                    >
+                        <img src="/eraser.webp" alt="eraser" />
+                    </div>
                 </div>
             </div>}
 
