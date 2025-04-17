@@ -75,6 +75,7 @@ export default function Canvas() {
 
     const handleMouseDown = useCallback((e) => {
         if (e.button !== 0) return;
+        setOpenOptions(false);
         setIsDrawing(true);
         handleClick(e);
     }, [handleClick]);
