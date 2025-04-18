@@ -107,6 +107,31 @@ export default function Canvas() {
         setGrid(newGrid);
     }, [isDrawing, grid, boxSize, selectedColor, boxesY]);
 
+    const handleTouchStart = useCallback((e) => {
+        const touch = e.touches[0];
+        const clientTouch = {
+            clientX: touch.clientX,
+            clientY: touch.clientY,
+            button: 0,
+        };
+        setIsDrawing(true);
+        handleClick(clientTouch);
+    }, [handleClick]);
+    
+    const handleTouchMove = useCallback((e) => {
+        if (!isDrawing) return;
+        const touch = e.touches[0];
+        const clientTouch = {
+            clientX: touch.clientX,
+            clientY: touch.clientY,
+        };
+        handleDraw(clientTouch);
+    }, [isDrawing, handleDraw]);
+    
+    const handleTouchEnd = useCallback(() => {
+        setIsDrawing(false);
+    }, []);
+
     return (
         <div onContextMenu={handleRightClick} style={{ cursor: selectedColor === WHITE ? 'url("/eraser-cursor.cur") 10 15, auto' : '' }}>
             <Options open={openOptions} setOpen={setOpenOptions} pageX={clickX} pageY={clickY} setColor={setSelectedColor}/>
@@ -116,6 +141,9 @@ export default function Canvas() {
                 onMouseMove={handleDraw}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseUp}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
                 className="border border-gray-400 block w-screen h-screen"
             />
         </div>
