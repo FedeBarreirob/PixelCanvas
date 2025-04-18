@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 const COLOR_CLASSES = {
     red: "bg-red-500",
     blue: "bg-blue-500",
@@ -9,9 +11,21 @@ const COLOR_CLASSES = {
 
 export default function Options({ open, pageY, pageX, setColor, setOpen }) {
     const COLORS = ["red", "blue", "green", "yellow", "black", "custom"]
+    const [isOpened, setIsOpened] = useState(open);
+
+    useEffect(() => {
+        if (open) {
+            setIsOpened(true);
+        } else if (open === false) {
+            setTimeout(() => {
+                setIsOpened(false);
+            }, 200);
+        }
+    }, [open]);
+
     return (
         <>
-            {open && <div className="fade-in fade-out absolute" style={{ left: pageX, top: pageY}}>
+            {isOpened && <div className={`absolute ${open ? "fade-in" : "fade-out"}`} style={{ left: pageX, top: pageY }}>
                 <div className="bg-white rounded-lg shadow-xl p-3 flex gap-3">
                     {COLORS.map((color) => (
                         <div
@@ -46,7 +60,6 @@ export default function Options({ open, pageY, pageX, setColor, setOpen }) {
                     </div>
                 </div>
             </div>}
-
         </>
     )
 }
