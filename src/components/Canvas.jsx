@@ -3,13 +3,13 @@ import Options from "./Options"
 
 export default function Canvas() {
     const BOXES_X = 100
+    const RED = "red"
+    const WHITE = "white"
     const canvasRef = useRef(null)
-
-    const [selectedColor, setSelectedColor] = useState('red')
+    const [selectedColor, setSelectedColor] = useState(RED)
     const [openOptions, setOpenOptions] = useState(false)
     const [clickY, setPositionClickY] = useState()
     const [clickX, setPositionClickX] = useState()
-
     const [boxSize, setBoxSize] = useState(0);
     const [boxesY, setBoxesY] = useState(0);
     const [grid, setGrid] = useState([]);
@@ -32,7 +32,6 @@ export default function Canvas() {
             setBoxSize(size);
             setBoxesY(yCount);
             setGrid(initialGrid);
-
             if (canvas && ctx) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 for (let y = 0; y < yCount; y++) {
@@ -45,7 +44,6 @@ export default function Canvas() {
                 }
             }
         };
-
         handleResize();
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
@@ -54,16 +52,14 @@ export default function Canvas() {
     const handleClick = useCallback(
         (e) => {
             const canvas = canvasRef.current;
-            const rect = canvas.getBoundingClientRect();
+            const rect = canvas?.getBoundingClientRect();
             const x = Math.floor((e.clientX - rect.left) / boxSize);
             const y = Math.floor((e.clientY - rect.top) / boxSize);
-
             const newGrid = [...grid];
             const newRow = [...newGrid[y]];
             newRow[x] = newRow[x] === selectedColor ? "#ffffff" : selectedColor;
             newGrid[y] = newRow;
             setGrid(newGrid);
-
             const ctx = canvas.getContext("2d");
             ctx.fillStyle = newRow[x];
             ctx.fillRect(x * boxSize, y * boxSize, boxSize, boxSize);
@@ -93,9 +89,8 @@ export default function Canvas() {
 
     const handleDraw = useCallback((e) => {
         if (!isDrawing) return;
-
         const canvas = canvasRef.current;
-        const rect = canvas.getBoundingClientRect();
+        const rect = canvas?.getBoundingClientRect();
         const x = Math.floor((e.clientX - rect.left) / boxSize);
         const y = Math.floor((e.clientY - rect.top) / boxSize);
         if (x < 0 || y < 0 || x >= BOXES_X || y >= boxesY) return;
@@ -112,9 +107,8 @@ export default function Canvas() {
         setGrid(newGrid);
     }, [isDrawing, grid, boxSize, selectedColor, boxesY]);
 
-
     return (
-        <div onContextMenu={handleRightClick} style={{ cursor: selectedColor === "white" ? 'url("/eraser-cursor.cur") 10 15, auto' : '' }}>
+        <div onContextMenu={handleRightClick} style={{ cursor: selectedColor === WHITE ? 'url("/eraser-cursor.cur") 10 15, auto' : '' }}>
             <Options open={openOptions} setOpen={setOpenOptions} pageX={clickX} pageY={clickY} setColor={setSelectedColor}/>
             <canvas
                 ref={canvasRef}
